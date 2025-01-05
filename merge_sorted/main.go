@@ -3,17 +3,10 @@ package main
 import "fmt"
 
 func merge(nums1 []int, m int, nums2 []int, n int) {
-	fmt.Println("Calling merge")
 	nums2Index := 0
 
-	/*
-		Need to handle with nums1 is empty
-		Need to think about if nums2 is always smaller
-		Need to think about when nums1 is always smaller
-	*/
-
 	// nothing to add from nums2 or both is empty
-	if n == 0 || m == 0 {
+	if n == 0 {
 		return
 	}
 
@@ -21,12 +14,14 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 	for i := 0; i < m; i++ {
 		tmpNums[i] = nums1[i]
 	}
-	fmt.Println(tmpNums)
 
 	nums1Index := 0
-	for i, _ := range nums1 {
-		if nums2Index >= n {
+	for i := 0; i < len(nums1); i++ {
+		if nums2Index >= n && nums1Index >= m {
 			continue
+		} else if nums2Index >= n {
+			nums1[i] = tmpNums[nums1Index]
+			nums1Index += 1
 		} else if nums1Index >= m {
 			nums1[i] = nums2[nums2Index]
 			nums2Index += 1
@@ -38,13 +33,19 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 			nums1Index += 1
 		}
 	}
-	fmt.Println(nums1)
 }
 
 func main() {
-	fmt.Println("Hello World")
 	nums1 := []int{1, 2, 3, 0, 0, 0}
 	nums2 := []int{2, 5, 6}
 	merge(nums1, 3, nums2, 3)
+	fmt.Println(nums1)
+	nums1 = []int{0}
+	nums2 = []int{1}
+	merge(nums1, 0, nums2, 1)
+	fmt.Println(nums1)
+	nums1 = []int{2, 0}
+	nums2 = []int{1}
+	merge(nums1, 1, nums2, 1)
 	fmt.Println(nums1)
 }
